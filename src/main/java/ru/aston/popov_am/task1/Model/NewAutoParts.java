@@ -12,6 +12,6 @@ public class NewAutoParts extends AutoParts {
     }
     @Override
     public BigDecimal getDiscount() {
-        return new BigDecimal(0);
+        return BigDecimal.ZERO;
     }
 }
