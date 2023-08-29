@@ -3,8 +3,6 @@ package ru.aston.popov_am.ServiceTest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.aston.popov_am.task1.DataSource.OrderList;
 import ru.aston.popov_am.task1.Interface.OrderService;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 public class OrderServiceImpTest {
     OrderList orderList = new OrderList();
     List<AutoParts> autoPartsList  = initAutoPartList();

@@ -1,7 +1,6 @@
 package ru.aston.popov_am.task1.Model;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class SupportedAutoParts extends AutoParts {
     private StateOfSupportedAutoParts stateOfSupportedAutoParts;
