@@ -1,4 +1,4 @@
-package ru.aston.popov_am.task1.Interface_and_AbstractClass;
+package ru.aston.popov_am.task1.Interface;
 
 import java.math.BigDecimal;
 

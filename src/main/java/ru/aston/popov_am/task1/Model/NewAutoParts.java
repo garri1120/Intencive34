@@ -1,7 +1,5 @@
 package ru.aston.popov_am.task1.Model;
 
-import ru.aston.popov_am.task1.Interface_and_AbstractClass.AutoParts;
-
 import java.math.BigDecimal;
 
 public class NewAutoParts extends AutoParts {
@@ -9,11 +7,11 @@ public class NewAutoParts extends AutoParts {
         super(autoPartsPrice, user, id);
     }
 
-    public BigDecimal getSupportedAutoPartsAmount(){
-        return new BigDecimal(0);
+    public BigDecimal getAutoPartsAmount(){
+        return getAutoPartsPrice();
     }
     @Override
     public BigDecimal getDiscount() {
-        return null;
+        return new BigDecimal(0);
     }
 }

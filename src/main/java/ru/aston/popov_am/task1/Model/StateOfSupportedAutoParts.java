@@ -1,10 +1,6 @@
 package ru.aston.popov_am.task1.Model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
-
 
 public enum StateOfSupportedAutoParts {
     Very_good_condition(new BigDecimal(10)),

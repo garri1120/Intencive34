@@ -1,9 +1,7 @@
 package ru.aston.popov_am.task1.Model;
 
-import lombok.Data;
-import ru.aston.popov_am.task1.Interface_and_AbstractClass.AutoParts;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class SupportedAutoParts extends AutoParts {
     private StateOfSupportedAutoParts stateOfSupportedAutoParts;
@@ -20,9 +18,9 @@ public class SupportedAutoParts extends AutoParts {
         this.stateOfSupportedAutoParts = stateOfSupportedAutoParts;
     }
 
-    public BigDecimal getSupportedAutoPartsAmount(){
-        BigDecimal d = this.getAutoPartsPrice().divide(this.getDiscount());
-        return this.getAutoPartsPrice().subtract(d);
+    public BigDecimal getAutoPartsAmount(){
+        BigDecimal discountAmount = this.getAutoPartsPrice().divide(new BigDecimal(100)).multiply(getDiscount());
+        return this.getAutoPartsPrice().subtract(discountAmount);
     }
     @Override
     public BigDecimal getDiscount() {
