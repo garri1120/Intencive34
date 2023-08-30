@@ -1,6 +1,7 @@
 package ru.aston.popov_am.task1.Model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class SupportedAutoParts extends AutoParts {
     private StateOfSupportedAutoParts stateOfSupportedAutoParts;
@@ -18,7 +19,7 @@ public class SupportedAutoParts extends AutoParts {
     }
 
     public BigDecimal getAutoPartsAmount(){
-        BigDecimal discountAmount = this.getAutoPartsPrice().divide(new BigDecimal(100)).multiply(getDiscount());
+        BigDecimal discountAmount = this.getAutoPartsPrice().divide(new BigDecimal(100),3, RoundingMode.HALF_UP).multiply(getDiscount());
         return this.getAutoPartsPrice().subtract(discountAmount);
     }
     @Override

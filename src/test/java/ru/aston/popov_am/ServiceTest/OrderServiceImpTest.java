@@ -46,13 +46,24 @@ public class OrderServiceImpTest {
         return orderService;
     }
     @Test
+    void saveOneElementTest(){
+        OrderList orderList1 = new OrderList();
+        OrderService orderService1 = new OrderServiceImp(orderList1);
+        User user = new User("Игорь","Захаров",55);
+        SupportedAutoParts supportedAutoParts = new SupportedAutoParts(new BigDecimal(3000),user,1,StateOfSupportedAutoParts.Very_good_condition);
+        orderService1.save(supportedAutoParts);
+        Assertions.assertFalse(orderList1.getAutoPartsList().isEmpty());
+        Assertions.assertEquals(user,orderList1.getAutoPartsList().get(0).getUser());
+    }
+
+    @Test
     void saveTest(){
         Assertions.assertEquals(5,orderList.getAutoPartsList().size());
     }
 
     @Test
     void sumOfAllOrdersTest(){
-        BigDecimal number = new BigDecimal(9850.50).setScale(2);
+        BigDecimal number = new BigDecimal("9850.500");
         Assertions.assertEquals(number,orderService.sumOfAllOrders());
     }
 

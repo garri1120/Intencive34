@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class OrderServiceImp implements OrderService {
-    OrderList orderList;
+    private final OrderList orderList;
 
     public OrderServiceImp(OrderList orderList) {
         this.orderList = orderList;
@@ -22,15 +22,11 @@ public class OrderServiceImp implements OrderService {
     @Override
     public List<AutoParts> sortedOrderList() {
         List<AutoParts> sort = orderList.getAutoPartsList();
+
         return sort.stream().sorted(Comparator.comparing(x -> x.getUser().getSourName())).toList();
     }
     @Override
     public BigDecimal sumOfAllOrders() {
-        BigDecimal sum = BigDecimal.ZERO;
-        List<AutoParts> a = orderList.getAutoPartsList();
-        for(AutoParts fese: a){
-            sum = sum.add(fese.getAutoPartsAmount());
-        }
-        return sum;
+        return orderList.getAutoPartsList().stream().map(AutoParts::getAutoPartsAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
