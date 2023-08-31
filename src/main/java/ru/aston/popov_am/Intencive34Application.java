@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Intencive34Application {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(Intencive34Application.class, args);
 	}
 }
