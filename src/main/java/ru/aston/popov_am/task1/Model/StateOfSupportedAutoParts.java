@@ -3,7 +3,8 @@ package ru.aston.popov_am.task1.Model;
 import java.math.BigDecimal;
 
 public enum StateOfSupportedAutoParts {
-    Very_GOOD_CONDITION(new BigDecimal(10)),
+
+    VERY_GOOD_CONDITION(new BigDecimal(10)),
     GOOD_CONDITION(new BigDecimal(20)),
     SATISFACTORY_CONDITION(new BigDecimal(30)),
     UNDER_RESTORATION_CONDITION(new BigDecimal(50)),

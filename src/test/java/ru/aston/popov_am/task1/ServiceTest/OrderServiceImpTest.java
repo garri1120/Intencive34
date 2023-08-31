@@ -24,7 +24,8 @@ public class OrderServiceImpTest {
         User user4 = new User("Василий", "Кротов",24);
         User user5 = new User("Игорь", "Мальцев",64);
 
-        SupportedAutoParts supportedAutoParts1 = new SupportedAutoParts(new BigDecimal(2000),user1,1, StateOfSupportedAutoParts.Very_GOOD_CONDITION);
+
+        SupportedAutoParts supportedAutoParts1 = new SupportedAutoParts(new BigDecimal(2000),user1,1, StateOfSupportedAutoParts.VERY_GOOD_CONDITION);
         SupportedAutoParts supportedAutoParts2 = new SupportedAutoParts(new BigDecimal(1500),user2,2, StateOfSupportedAutoParts.SATISFACTORY_CONDITION);
         SupportedAutoParts supportedAutoParts3 = new SupportedAutoParts(new BigDecimal(3001),user5,5, StateOfSupportedAutoParts.UNDER_RESTORATION_CONDITION);
         NewAutoParts newAutoParts1 = new NewAutoParts(new BigDecimal(1000),user3,3);
@@ -49,7 +50,8 @@ public class OrderServiceImpTest {
         OrderList orderList1 = new OrderList();
         OrderService orderService1 = new OrderServiceImp(orderList1);
         User user = new User("Игорь","Захаров",55);
-        SupportedAutoParts supportedAutoParts = new SupportedAutoParts(new BigDecimal(3000),user,1,StateOfSupportedAutoParts.Very_GOOD_CONDITION);
+
+        SupportedAutoParts supportedAutoParts = new SupportedAutoParts(new BigDecimal(3000),user,1,StateOfSupportedAutoParts.VERY_GOOD_CONDITION);
         orderService1.save(supportedAutoParts);
         Assertions.assertFalse(orderList1.getAutoPartsList().isEmpty());
         Assertions.assertEquals(user,orderList1.getAutoPartsList().get(0).getUser());
