@@ -7,6 +7,8 @@ import ru.aston.popov_am.task1.DataSource.OrderList;
 import ru.aston.popov_am.task1.Interface.OrderService;
 import ru.aston.popov_am.task1.Model.*;
 import ru.aston.popov_am.task1.Service.OrderServiceImp;
+import ru.aston.popov_am.task2.ErrorHandler.InvalidDataException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,11 @@ public class OrderServiceImpTest {
     OrderList orderList = new OrderList();
     List<AutoParts> autoPartsList  = initAutoPartList();
     OrderService orderService = initOrderService();
+
+    public OrderServiceImpTest() throws InvalidDataException {
+    }
+
+
     private List<AutoParts> initAutoPartList(){
         List<AutoParts> autoPartsList = new ArrayList<>();
         User user1 = new User("Андрей", "Иванов",33);
@@ -38,7 +45,7 @@ public class OrderServiceImpTest {
         autoPartsList.add(newAutoParts2);
         return autoPartsList;
     }
-    private OrderService initOrderService(){
+    private OrderService initOrderService() throws InvalidDataException {
         OrderService orderService = new OrderServiceImp(orderList);
         for(AutoParts autoParts : autoPartsList){
             orderService.save(autoParts);
@@ -46,7 +53,7 @@ public class OrderServiceImpTest {
         return orderService;
     }
     @Test
-    void saveOneElementTest(){
+    void saveOneElementTest() throws InvalidDataException {
         OrderList orderList1 = new OrderList();
         OrderService orderService1 = new OrderServiceImp(orderList1);
         User user = new User("Игорь","Захаров",55);
@@ -70,7 +77,31 @@ public class OrderServiceImpTest {
 
     @Test
     void sortedOrderListTest(){
-       List<AutoParts> autoParts = orderService.sortedOrderList();
-       Assertions.assertEquals("Мальцев",autoParts.get(3).getUser().getSourName());
+        List<AutoParts> autoParts = orderService.sortedOrderList();
+        Assertions.assertEquals("Мальцев",autoParts.get(3).getUser().getSourName());
     }
+
+    @Test
+    void saveTestAutoPartsPriceZeroException() {
+        User user = new User("Андрей", "Иванов",33);
+        SupportedAutoParts supportedAutoParts1 = new SupportedAutoParts(new BigDecimal(0),user,1, StateOfSupportedAutoParts.VERY_GOOD_CONDITION);
+        OrderList orderList = new OrderList();
+        OrderService orderService = new OrderServiceImp(orderList);
+
+        Throwable throwable = Assertions.assertThrows(InvalidDataException.class, () -> orderService.save(supportedAutoParts1));
+
+        Assertions.assertNotNull(throwable.getMessage());
+    }
+    @Test
+    void saveTestAutoPartsPriceNegativeNumberException() {
+        User user = new User("Андрей", "Иванов",33);
+        SupportedAutoParts supportedAutoParts1 = new SupportedAutoParts(new BigDecimal(-10),user,1, StateOfSupportedAutoParts.VERY_GOOD_CONDITION);
+        OrderList orderList = new OrderList();
+        OrderService orderService = new OrderServiceImp(orderList);
+
+        Throwable throwable = Assertions.assertThrows(InvalidDataException.class, () -> orderService.save(supportedAutoParts1));
+
+        Assertions.assertNotNull(throwable.getMessage());
+    }
+
 }
