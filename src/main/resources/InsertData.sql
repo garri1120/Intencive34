@@ -1,0 +1,20 @@
+insert into users values (1,'Андрей','Иванов','ivanov@mail.ru', '+79881111111');
+insert into users values (2,'Дима','Петров','petrov@mail.ru', '+79882222222');
+insert into users values (3,'Витя','Сидоров','sidorov@mail.ru', '+79883333333');
+insert into users values (4,'Ира','Приходько','prixodko@mail.ru', '+79884444444');
+insert into users values (5,'Дима','Медведев','medvedev@mail.ru', '+79885555555');
+insert into users values (6,'Катя','Мозаренко','mozarenko@mail.ru', '+79886666666');
+
+insert into orders values (1,'Телевизов', 32000, 1);
+insert into orders values (2,'Телефон', 15600, 2);
+insert into orders values (3,'Принтер',5500, 2);
+insert into orders values (4,'Холодильник',20000, 3);
+insert into orders values (5,'Телефон', 12000, 5);
+insert into orders values (6,'Чайник', 2000, 3);
+insert into orders values (7,'Чайник', 1900, 4);
+insert into orders values (8,'Принтер', 1260, 5);
+insert into orders values (9,'Телефон', 1260, 5);
+insert into orders values (10,'Ноутбук', 42000, 6);
+insert into orders values (11,'Тостер', 3250, 6);
+insert into orders values (12,'Принтер', 6550, 4);
+insert into orders values (14,'Телефон', 1260, 5);
