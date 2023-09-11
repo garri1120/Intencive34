@@ -4,9 +4,6 @@ import lombok.*;
 
 @Builder
 @Data
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class User {
     private Integer id;
     private String firstname;
