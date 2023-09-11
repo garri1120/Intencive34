@@ -21,9 +21,9 @@ public class JoinedQueriesImpl implements JoinedQueries<Integer>{
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT sum(price) FROM users join orders on users.id = orders.userId where users.id = ?")){
             preparedStatement.setInt(1,id);
             ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next()){
-                sum = rs.getInt(1);
-            }
+              rs.next();
+              sum = rs.getInt(1);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
