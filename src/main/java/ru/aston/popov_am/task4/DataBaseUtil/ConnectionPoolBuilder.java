@@ -10,6 +10,7 @@ public final class ConnectionPoolBuilder implements ConnectionBuilder{
     private final List<Connection> connectionPool;
     private final List<Connection> usedConnections = new ArrayList<>();
     private static final int INITIAL_POOL_SIZE = 10;
+    private static  ConnectionPoolBuilder instance = null;
 
     public ConnectionPoolBuilder(List<Connection> connectionPool) {
         this.connectionPool = connectionPool;
@@ -45,5 +46,11 @@ public final class ConnectionPoolBuilder implements ConnectionBuilder{
     }
     public int getSize() {
         return connectionPool.size() + usedConnections.size();
+    }
+    public static ConnectionPoolBuilder getInstance() throws SQLException {
+        if(instance == null){
+            instance = ConnectionPoolBuilder.create();
+        }
+        return instance;
     }
 }

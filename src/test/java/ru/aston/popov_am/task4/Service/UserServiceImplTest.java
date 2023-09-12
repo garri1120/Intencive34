@@ -15,7 +15,7 @@ public class UserServiceImplTest {
     UserServiceImpl userService = new UserServiceImpl(userDao);
     @BeforeEach
     public void beforeEach() throws SQLException {
-        connectionPoolBuilder = ConnectionPoolBuilder.create();
+        connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
 
     }
     public UserServiceImplTest() throws SQLException {

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao<Integer, User>{
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.create();
+    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
 
     public UserDaoImpl() throws SQLException {
     }

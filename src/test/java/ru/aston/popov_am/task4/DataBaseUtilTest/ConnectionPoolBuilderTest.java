@@ -12,7 +12,7 @@ public class ConnectionPoolBuilderTest {
     ConnectionPoolBuilder connectionPoolBuilder;
     @BeforeEach
     public void beforeEach() throws SQLException {
-        connectionPoolBuilder = ConnectionPoolBuilder.create();
+        connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
     }
 
     @Test

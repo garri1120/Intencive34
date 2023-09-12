@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JoinedQueriesImpl implements JoinedQueries<Integer>{
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.create();
+    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
 
     public JoinedQueriesImpl() throws SQLException {
     }

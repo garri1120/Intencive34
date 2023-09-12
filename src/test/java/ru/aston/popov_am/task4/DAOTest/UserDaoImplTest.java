@@ -18,7 +18,7 @@ public class UserDaoImplTest {
 
     @BeforeEach
     public void beforeEach() throws SQLException {
-        connectionPoolBuilder = ConnectionPoolBuilder.create();
+        connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
 
     }
 
