@@ -37,16 +37,18 @@ public class UserDaoImplTest {
     }
     @Test
     public void create(){
-     User user = User.builder().id(999).firstname("Test").lastname("Test").email("Test@mail.ru").phone("+Test").build();
-        Assertions.assertTrue(userDao.create(user));
-        userDao.delete(999);
+     User user = User.builder().firstname("Test").lastname("Test").email("Test@mail.ru").phone("+Test").build();
+     User user1 = userDao.create(user);
+     user.setId(user1.getId());
+     Assertions.assertEquals(user,user1);
+        userDao.delete(user1.getId());
     }
     @Test
     public void update(){
-        User user = User.builder().id(999).firstname("Test").lastname("Test").email("Test@mail.ru").phone("+Test").build();
+        User user = User.builder().firstname("Test").lastname("Test").email("Test@mail.ru").phone("+Test").build();
         userDao.create(user);
-        User user1 = User.builder().id(999).firstname("Update").lastname("Update").email("Update@mail.ru").phone("+Update").build();
+        User user1 = User.builder().id(user.getId()).firstname("Update").lastname("Update").email("Update@mail.ru").phone("+Update").build();
         Assertions.assertTrue(userDao.update(user1));
-        userDao.delete(999);
+        userDao.delete(user1.getId());
     }
 }

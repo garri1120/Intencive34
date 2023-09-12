@@ -24,7 +24,7 @@ public class OrderDaoImplTest {
 
     @Test
     void createOrderInvalidDataException() {
-        Order order = Order.builder().id(400).price(0).product("Car").build();
+        Order order = Order.builder().price(0).product("Car").userId(5).build();
         Throwable throwable = Assertions.assertThrows(InvalidDataException.class, () -> orderDao.create(order));
         Assertions.assertNotNull(throwable.getMessage());
     }
