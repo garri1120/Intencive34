@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService<Integer>{
     }
 
     @Override
-    public boolean saveUser(User user) {
+    public User saveUser(User user) {
        return userDaoImpl.create(user);
     }
 

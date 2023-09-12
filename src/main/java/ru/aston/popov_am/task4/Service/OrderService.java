@@ -8,7 +8,7 @@ import java.util.List;
 public interface OrderService<K extends Number> {
     Order findOrderById(K k) throws NotFoundException;
     boolean deleteOrderById(K k);
-    boolean saveOrder(Order order);
+    Order saveOrder(Order order);
     boolean updateOrder(Order order);
     List<Order> findAllProduct();
 }
