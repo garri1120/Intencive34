@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderDaoImpl implements OrderDao<Integer, Order> {
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.create();
+    private final ConnectionPoolBuilder connectionPoolBuilder;
 
     public OrderDaoImpl() throws SQLException {
+        this.connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
     }
 
     @Override
@@ -31,13 +32,13 @@ public class OrderDaoImpl implements OrderDao<Integer, Order> {
                         userId(rs.getInt(4)).
                         build());
             }
+            return orderList;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return orderList;
     }
 
     @Override
@@ -56,14 +57,14 @@ public class OrderDaoImpl implements OrderDao<Integer, Order> {
                         userId(rs.getInt(4)).
                         build();
             }
+            return Optional.ofNullable(order);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
 
         }
-        return Optional.ofNullable(order);
     }
 
     @Override
@@ -74,34 +75,35 @@ public class OrderDaoImpl implements OrderDao<Integer, Order> {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return false;
     }
 
     @Override
-    public boolean create(Order order) throws InvalidDataException {
+    public Order create(Order order) throws InvalidDataException {
         if(order.getPrice() <= 0){
             throw new InvalidDataException("Не корректно введена цена за товар");
         }
         Connection connection = connectionPoolBuilder.getConnection();
-        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO orders VALUES (?,?,?,?)")) {
-            preparedStatement.setInt(1, order.getId());
-            preparedStatement.setString(2,order.getProduct());
-            preparedStatement.setInt(3,order.getPrice());
-            preparedStatement.setInt(4,order.getUserId());
-            return preparedStatement.executeUpdate()>0;
+        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO orders (product,price,userId) VALUES (?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1,order.getProduct());
+            preparedStatement.setInt(2,order.getPrice());
+            preparedStatement.setInt(3,order.getUserId());
+            preparedStatement.executeUpdate();
+            ResultSet res = preparedStatement.getGeneratedKeys();
+            res.next();
+            order.setId(res.getInt(1));
+            return order;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return false;
     }
 
     @Override
@@ -119,11 +121,10 @@ public class OrderDaoImpl implements OrderDao<Integer, Order> {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return false;
     }
 }
