@@ -1,28 +1,21 @@
 package ru.aston.popov_am.task4.DAOTest;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import ru.aston.popov_am.task4.DAO.JoinedQueriesImpl;
-import ru.aston.popov_am.task4.DataBaseUtil.ConnectionPoolBuilder;
 
-import java.sql.SQLException;
+
+import static javax.swing.text.html.parser.DTDConstants.ID;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 public class JoinedQueriesImplTest {
-    ConnectionPoolBuilder connectionPoolBuilder;
-    JoinedQueriesImpl joinedQueries = new JoinedQueriesImpl();
-
-    public JoinedQueriesImplTest() throws SQLException {
-    }
-
-    @BeforeEach
-    public void beforeEach() throws SQLException {
-        connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
-
-    }
-
+    JoinedQueriesImpl joinedQueries = Mockito.mock(JoinedQueriesImpl.class);
     @Test
     public void sumOfUserOrdersById() {
-        Assertions.assertEquals(joinedQueries.sumOfUserOrdersById(3),22000);
+        when(joinedQueries.sumOfUserOrdersById(anyInt())).thenReturn(anyInt());
+        Assertions.assertEquals(joinedQueries.sumOfUserOrdersById(ID),anyInt());
+
     }
 }

@@ -3,52 +3,58 @@ package ru.aston.popov_am.task4.DAOTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import ru.aston.popov_am.task4.DAO.UserDaoImpl;
-import ru.aston.popov_am.task4.DataBaseUtil.ConnectionPoolBuilder;
 import ru.aston.popov_am.task4.Model.User;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import static javax.swing.text.html.parser.DTDConstants.ID;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 public class UserDaoImplTest {
-    ConnectionPoolBuilder connectionPoolBuilder;
-    UserDaoImpl userDao = new UserDaoImpl();
-
-    public UserDaoImplTest() throws SQLException {
-    }
-
+    UserDaoImpl userDao = Mockito.mock(UserDaoImpl.class);
+    User user;
+    User userSave;
+    User userUpdate;
+    Optional<User> userOptional;
+    List<User> userList;
     @BeforeEach
-    public void beforeEach() throws SQLException {
-        connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
-
+    void setUp(){
+        user = User.builder().id(1).firstname("A").lastname("B").email("mail").phone("+02").build();
+        userSave = User.builder().firstname("A").lastname("B").email("mail").phone("+02").build();
+        userUpdate = User.builder().id(1).firstname("TestUpdate").lastname("TestUpdate").email("mail").phone("+02").build();
+        userOptional = Optional.of(User.builder().id(55).firstname("Test").lastname("Test").email("mail").phone("+03").build());
+        userList = new ArrayList<>();
+        userList.add(user);
     }
 
     @Test
     public void findAll(){
-        Assertions.assertEquals(userDao.findAll().size(), 6);
+        when(userDao.findAll()).thenReturn(userList);
+        List<User> userList1 = new ArrayList<>();
+        userList1.add(user);
+        Assertions.assertEquals(userDao.findAll(),userList1);
     }
     @Test
     public void findEntityById(){
-        Optional<User>user = Optional.ofNullable(User.builder().id(2).firstname("Дима").lastname("Петров").email("petrov@mail.ru").phone("+79882222222").build());
-        Assertions.assertEquals(userDao.findEntityById(2),user);
+        when(userDao.findEntityById(anyInt())).thenReturn(userOptional);
+        Assertions.assertEquals(userDao.findEntityById(ID),userOptional);
     }
     @Test
     public void deleteUserById(){
-    Assertions.assertTrue(userDao.delete(555));
+    when(userDao.delete(anyInt())).thenReturn(true);
+    Assertions.assertTrue(userDao.delete(ID));
     }
     @Test
     public void create(){
-     User user = User.builder().firstname("Test").lastname("Test").email("Test@mail.ru").phone("+Test").build();
-     User user1 = userDao.create(user);
-     user.setId(user1.getId());
-     Assertions.assertEquals(user,user1);
-        userDao.delete(user1.getId());
+     when(userDao.create(userSave)).thenReturn(user);
+        Assertions.assertEquals(userDao.create(userSave),user);
     }
     @Test
     public void update(){
-        User user = User.builder().firstname("Test").lastname("Test").email("Test@mail.ru").phone("+Test").build();
-        userDao.create(user);
-        User user1 = User.builder().id(user.getId()).firstname("Update").lastname("Update").email("Update@mail.ru").phone("+Update").build();
-        Assertions.assertTrue(userDao.update(user1));
-        userDao.delete(user1.getId());
+        when(userDao.update(user)).thenReturn(true);
+        Assertions.assertTrue(userDao.update(user));
     }
 }

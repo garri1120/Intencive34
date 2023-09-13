@@ -8,16 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JoinedQueriesImpl implements JoinedQueries<Integer>{
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
+    private final ConnectionPoolBuilder connectionPoolBuilder;
 
     public JoinedQueriesImpl() throws SQLException {
+        this.connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
     }
-
 
     @Override
     public int sumOfUserOrdersById(Integer id) {
         Connection connection = connectionPoolBuilder.getConnection();
-        int sum = 0;
+        int sum;
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT sum(price) FROM users join orders on users.id = orders.userId where users.id = ?")){
             preparedStatement.setInt(1,id);
             ResultSet rs = preparedStatement.executeQuery();

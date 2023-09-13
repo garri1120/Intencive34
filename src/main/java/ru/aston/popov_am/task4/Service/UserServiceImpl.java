@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService<Integer>{
     }
 
     @Override
-    public boolean deleteUSerById(Integer integer) {
-        return userDaoImpl.delete(10);
+    public boolean deleteUSerById(Integer id) {
+        return userDaoImpl.delete(id);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class OrderServiceImplTest {
 
     @BeforeEach
     public void beforeEach() throws SQLException {
-        connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
+        connectionPoolBuilder = ConnectionPoolBuilder.create();
 
     }
     @Test

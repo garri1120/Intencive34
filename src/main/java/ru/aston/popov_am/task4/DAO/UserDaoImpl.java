@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao<Integer, User>{
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
+    private final ConnectionPoolBuilder connectionPoolBuilder;
 
     public UserDaoImpl() throws SQLException {
+        this.connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
     }
 
     @Override

@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderDaoImpl implements OrderDao<Integer, Order> {
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
+    private final ConnectionPoolBuilder connectionPoolBuilder;
 
     public OrderDaoImpl() throws SQLException {
+        this.connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
     }
 
     @Override
