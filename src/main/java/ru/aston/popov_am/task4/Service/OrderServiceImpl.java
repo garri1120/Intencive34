@@ -24,13 +24,13 @@ public class OrderServiceImpl implements OrderService<Integer> {
     }
 
     @Override
-    public boolean saveOrder(Order order) {
+    public Order saveOrder(Order order) {
         try {
-            return orderDaoImpl.create(order);
+           order = orderDaoImpl.create(order);
         } catch (InvalidDataException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
-        return false;
+        return order;
     }
 
     @Override

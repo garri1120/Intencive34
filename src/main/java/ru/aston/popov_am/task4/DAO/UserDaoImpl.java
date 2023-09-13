@@ -2,18 +2,17 @@ package ru.aston.popov_am.task4.DAO;
 
 import ru.aston.popov_am.task4.DataBaseUtil.ConnectionPoolBuilder;
 import ru.aston.popov_am.task4.Model.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao<Integer, User>{
-    private final ConnectionPoolBuilder connectionPoolBuilder = ConnectionPoolBuilder.create();
+    private final ConnectionPoolBuilder connectionPoolBuilder;
 
     public UserDaoImpl() throws SQLException {
+        this.connectionPoolBuilder = ConnectionPoolBuilder.getInstance();
     }
 
     @Override
@@ -31,13 +30,13 @@ public class UserDaoImpl implements UserDao<Integer, User>{
                         email(rs.getString(5))
                        .build());
             }
+            return userList;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return userList;
     }
 
     @Override
@@ -57,14 +56,13 @@ public class UserDaoImpl implements UserDao<Integer, User>{
                         phone(rs.getString(5))
                 .build();
             }
+            return Optional.ofNullable(user);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
-
         }
-        return Optional.ofNullable(user);
     }
 
     @Override
@@ -75,51 +73,34 @@ public class UserDaoImpl implements UserDao<Integer, User>{
             return preparedStatement.executeUpdate() >= 0;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return true;
     }
 
     @Override
-    public boolean create(User user) {
+    public User create(User user) {
         Connection connection = connectionPoolBuilder.getConnection();
-        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?)")) {
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setString(2,user.getFirstname());
-            preparedStatement.setString(3,user.getLastname());
-            preparedStatement.setString(4,user.getEmail());
-            preparedStatement.setString(5,user.getPhone());
-            return preparedStatement.executeUpdate()>0;
+        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (firstname,lastname,email,phone) VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1,user.getFirstname());
+            preparedStatement.setString(2,user.getLastname());
+            preparedStatement.setString(3,user.getEmail());
+            preparedStatement.setString(4,user.getPhone());
+            preparedStatement.executeUpdate();
+            ResultSet res =  preparedStatement.getGeneratedKeys();
+            res.next();
+            user.setId(res.getInt(1));
+            return user;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return false;
     }
-//    @Override
-//    public boolean create(User user) {
-//        Connection connection = connectionPoolBuilder.getConnection();
-//        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (firstname,lastname,email,phone) VALUES (?,?,?,?)")) {
-//            preparedStatement.setString(1,user.getFirstname());
-//            preparedStatement.setString(2,user.getLastname());
-//            preparedStatement.setString(3,user.getEmail());
-//            preparedStatement.setString(4,user.getPhone());
-//            return preparedStatement.executeUpdate()>0;
-//
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        finally {
-//            connectionPoolBuilder.releaseConnection(connection);
-//        }
-//        return false;
-//    }
 
     @Override
     public boolean update(User user) {
@@ -134,11 +115,10 @@ public class UserDaoImpl implements UserDao<Integer, User>{
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         finally {
             connectionPoolBuilder.releaseConnection(connection);
         }
-        return false;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService<K extends Number> {
     User findUserById(K k) throws NotFoundException;
     boolean deleteUSerById(K k);
-    boolean saveUser(User user);
+    User saveUser(User user);
     boolean updateUser(User user);
     List<User> findAllUser();
 }

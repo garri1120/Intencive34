@@ -9,7 +9,8 @@ import java.util.List;
 public final class ConnectionPoolBuilder implements ConnectionBuilder{
     private final List<Connection> connectionPool;
     private final List<Connection> usedConnections = new ArrayList<>();
-    private static final int INITIAL_POOL_SIZE = 10;
+    private static final int poolSize = ConnectionPoolSize.INITIAL_POOL_SIZE.getPoolSize();
+    private static  ConnectionPoolBuilder instance = null;
 
     public ConnectionPoolBuilder(List<Connection> connectionPool) {
         this.connectionPool = connectionPool;
@@ -17,8 +18,8 @@ public final class ConnectionPoolBuilder implements ConnectionBuilder{
 
     public static ConnectionPoolBuilder create() throws SQLException {
 
-        List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
-        for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
+        List<Connection> pool = new ArrayList<>(poolSize);
+        for (int i = 0; i < poolSize; i++) {
             pool.add(createConnection());
         }
         return new ConnectionPoolBuilder(pool);
@@ -45,5 +46,11 @@ public final class ConnectionPoolBuilder implements ConnectionBuilder{
     }
     public int getSize() {
         return connectionPool.size() + usedConnections.size();
+    }
+    public static ConnectionPoolBuilder getInstance() throws SQLException {
+        if(instance == null){
+            instance = ConnectionPoolBuilder.create();
+        }
+        return instance;
     }
 }
