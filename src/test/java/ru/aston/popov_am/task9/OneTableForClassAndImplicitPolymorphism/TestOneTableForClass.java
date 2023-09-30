@@ -1,4 +1,4 @@
-package ru.aston.popov_am.task9.OneTableForClassAndImplicitPolymorphismTest;
+package ru.aston.popov_am.task9.OneTableForClassAndImplicitPolymorphism;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,8 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.aston.popov_am.task9.OneTableForClassAndImplicitPolymorphism.BankAccount;
-import ru.aston.popov_am.task9.OneTableForClassAndImplicitPolymorphism.CreditCard;
 
 public class TestOneTableForClass {
     private static SessionFactory sessionFactory;
