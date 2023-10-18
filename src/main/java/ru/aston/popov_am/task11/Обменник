@@ -1,0 +1,33 @@
+Данный сервис поднимается на  localhost:8080/{cityName}/{giveAwayTheCurrency}/{getCurrency}/{quantity}
+
+Вместо cityName можно ввести один город из MOSCOW("0.9"),MINSK("1"),PARIS("0.85") при этом у каждого города своя коммиссия для обменника.
+Если будет введен не действительный город будет ошибка. Которая обработана.
+
+Вместо giveAwayTheCurrency можно ввести одну из валют  RUB,USD,EUR
+
+Вместо getCurrency можно ввести одну из валют  RUB,USD,EUR
+
+Вместо quantity можно ввести любое число. Какое количество валюты будет обмениваться. Проверки на отрицательное число не делал.
+
+
+Пример ввода:
+
+localhost:8080/MOSCOW/USD/RUB/50
+
+Вывод в postman:
+
+{
+    "exchangeRate": {
+        "giveAwayTheCurrency": "USD",
+        "getCurrency": "RUB",
+        "rate": 100
+    },
+    "city": "MOSCOW",
+    "date": "2023-10-07",
+    "quantity": 50,
+    "result": "4500.0"
+}
+
+Вывод в браузер:
+
+{"exchangeRate":{"giveAwayTheCurrency":"USD","getCurrency":"RUB","rate":100},"city":"MOSCOW","date":"2023-10-07","quantity":50,"result":"4500.0"}
